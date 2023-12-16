@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://b8hmv41u2l27e"]
+
+[ext_resource type="PackedScene" uid="uid://bjxpq23sqvg3a" path="res://Obstacle/obstacle.tscn" id="1_tc806"]
+[ext_resource type="PackedScene" uid="uid://ccj7xnysk5tpg" path="res://Obstacle/kill_box.tscn" id="2_3gh0o"]
+[ext_resource type="Script" path="res://Mover.gd" id="3_oml1s"]
+
+[node name="MovingDeath" instance=ExtResource("1_tc806")]
+
+[node name="KillBox" parent="." index="2" instance=ExtResource("2_3gh0o")]
+transform = Transform3D(1, 0, 0, 0, 3, 0, 0, 0, 1, 4.5, 1.5, 0)
+
+[node name="Mover" type="Node" parent="KillBox" index="4"]
+script = ExtResource("3_oml1s")
+start_pos = Vector3(-4.5, 1.5, 0)
+end_pos = Vector3(4.5, 1.5, 0)

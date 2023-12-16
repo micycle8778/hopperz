@@ -1,0 +1,91 @@
+[gd_scene load_steps=8 format=3 uid="uid://dnvud3lrgijm8"]
+
+[ext_resource type="PackedScene" uid="uid://bx0eaye2jeufi" path="res://Player/player.tscn" id="1_jiire"]
+[ext_resource type="Script" path="res://World/world.gd" id="1_o0pnk"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_xp06p"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_cr2vm"]
+size = Vector2(10, 10)
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_18bmx"]
+plane = Plane(1, 0, 0, -5)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_yi4hs"]
+size = Vector2(5, 10)
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_e4vw8"]
+plane = Plane(-1, 0, 0, -5)
+
+[node name="World" type="Node3D"]
+script = ExtResource("1_o0pnk")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 5.4024, 10.2369)
+
+[node name="Player" parent="." instance=ExtResource("1_jiire")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
+
+[node name="WallLighting" type="Node" parent="."]
+
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="WallLighting"]
+transform = Transform3D(-0.965926, 1.54268e-08, -0.258819, 0, -1, -5.96047e-08, -0.258819, -5.75737e-08, 0.965926, -2.04872, 3.71803, -3.43495)
+light_energy = 0.17
+light_cull_mask = 2
+
+[node name="DirectionalLight3D3" type="DirectionalLight3D" parent="WallLighting"]
+transform = Transform3D(4.37114e-08, -3.82137e-15, -1, -8.74228e-08, -1, 0, -1, 8.74228e-08, -4.37114e-08, -2.04872, 3.71803, -3.43495)
+visible = false
+layers = 2
+light_cull_mask = 2
+
+[node name="PlayerLighting" type="Node" parent="."]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="PlayerLighting"]
+transform = Transform3D(1, 0, 0, 0, -0.741227, 0.671255, 0, -0.671255, -0.741227, -2.04872, 6, -3.43495)
+light_energy = 0.6
+light_cull_mask = 1
+shadow_enabled = true
+
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="PlayerLighting"]
+transform = Transform3D(-0.965926, 0.0128057, -0.258502, -9.64176e-10, -0.998775, -0.0494775, -0.258819, -0.0477916, 0.964743, -2.04872, 6, -3.43495)
+light_energy = 0.423
+light_cull_mask = 1
+
+[node name="Environment" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 100, 0, 0, 0)
+
+[node name="Ground" type="StaticBody3D" parent="Environment"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Ground"]
+shape = SubResource("WorldBoundaryShape3D_xp06p")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Ground"]
+layers = 7
+mesh = SubResource("PlaneMesh_cr2vm")
+skeleton = NodePath("../..")
+
+[node name="LeftWall" type="StaticBody3D" parent="Environment"]
+visible = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/LeftWall"]
+shape = SubResource("WorldBoundaryShape3D_18bmx")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/LeftWall"]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -5, 2.5, 0)
+layers = 2
+mesh = SubResource("PlaneMesh_yi4hs")
+
+[node name="RightWall" type="StaticBody3D" parent="Environment"]
+visible = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/RightWall"]
+shape = SubResource("WorldBoundaryShape3D_e4vw8")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/RightWall"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 5, 2.5, 0)
+layers = 2
+mesh = SubResource("PlaneMesh_yi4hs")
+skeleton = NodePath("../../LeftWall")
+
+[node name="Obstacles" type="Node" parent="."]

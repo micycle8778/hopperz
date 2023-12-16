@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://ccj7xnysk5tpg"]
+
+[ext_resource type="Script" path="res://Obstacle/kill_box.gd" id="1_a3vkf"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ypqpb"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pq5w3"]
+albedo_color = Color(0.87451, 0.184314, 0.184314, 1)
+grow_amount = 0.99
+
+[sub_resource type="BoxMesh" id="BoxMesh_uj81j"]
+material = SubResource("StandardMaterial3D_pq5w3")
+
+[node name="KillBox" type="Area3D"]
+script = ExtResource("1_a3vkf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_ypqpb")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+layers = 2
+mesh = SubResource("BoxMesh_uj81j")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

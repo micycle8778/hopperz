@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3 uid="uid://bjxpq23sqvg3a"]
+
+[ext_resource type="Script" path="res://Obstacle/obstacle.gd" id="1_br0fk"]
+[ext_resource type="Script" path="res://Destructatron.gd" id="2_4kg5l"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ufo0a"]
+size = Vector3(10, 10, 4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_roa52"]
+albedo_color = Color(1, 0, 1, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_gomo8"]
+material = SubResource("StandardMaterial3D_roa52")
+size = Vector2(10, 4)
+
+[node name="Obstacle" type="Area3D"]
+script = ExtResource("1_br0fk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+shape = SubResource("BoxShape3D_ufo0a")
+
+[node name="Guide" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.999997, 0.00206202, -0.000903056, -0.00206198, 0.999998, 4.22578e-05, 0.000903142, -4.03747e-05, 1, 0, 0, 0)
+mesh = SubResource("PlaneMesh_gomo8")
+
+[node name="Destructatron" type="Node" parent="Guide"]
+script = ExtResource("2_4kg5l")
+
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

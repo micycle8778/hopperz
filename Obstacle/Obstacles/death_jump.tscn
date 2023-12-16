@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://cg3v8pns0smco"]
+
+[ext_resource type="PackedScene" uid="uid://bjxpq23sqvg3a" path="res://Obstacle/obstacle.tscn" id="1_fnfuo"]
+[ext_resource type="PackedScene" uid="uid://ccj7xnysk5tpg" path="res://Obstacle/kill_box.tscn" id="2_v6aol"]
+
+[node name="DeathJump" instance=ExtResource("1_fnfuo")]
+
+[node name="KillBox" parent="." index="1" instance=ExtResource("2_v6aol")]
+transform = Transform3D(10, 0, 0, 0, 1.01, 0, 0, 0, 1.01, 0, 0.5, 0)
