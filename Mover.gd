@@ -1,4 +1,4 @@
-extends Node
+class_name Mover extends Node
 
 @export var start_pos: Vector3
 @export var end_pos: Vector3
@@ -10,6 +10,8 @@ extends Node
 
 func _ready():
 	assert(parent != null)
+
+	#process_mode = Node.PROCESS_MODE_ALWAYS
 
 func _physics_process(delta):
 	if t > 1:

@@ -1,7 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://dnvud3lrgijm8"]
+[gd_scene load_steps=10 format=3 uid="uid://dnvud3lrgijm8"]
 
 [ext_resource type="PackedScene" uid="uid://bx0eaye2jeufi" path="res://Player/player.tscn" id="1_jiire"]
 [ext_resource type="Script" path="res://World/world.gd" id="1_o0pnk"]
+[ext_resource type="Script" path="res://World/HighScoreLabel.gd" id="3_8ofjy"]
+[ext_resource type="Script" path="res://World/ScoreLabel.gd" id="3_u3hoo"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_xp06p"]
 
@@ -21,7 +23,7 @@ plane = Plane(-1, 0, 0, -5)
 script = ExtResource("1_o0pnk")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 5.4024, 10.2369)
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0.00133491, 5.40988, 10.225)
 
 [node name="Player" parent="." instance=ExtResource("1_jiire")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
@@ -89,3 +91,73 @@ mesh = SubResource("PlaneMesh_yi4hs")
 skeleton = NodePath("../../LeftWall")
 
 [node name="Obstacles" type="Node" parent="."]
+
+[node name="DeathMenu" type="CanvasLayer" parent="."]
+process_mode = 2
+visible = false
+
+[node name="MarginContainer" type="MarginContainer" parent="DeathMenu"]
+offset_right = 1280.0
+offset_bottom = 720.0
+
+[node name="PanelContainer" type="PanelContainer" parent="DeathMenu/MarginContainer"]
+custom_minimum_size = Vector2(640, 360)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="DeathMenu/MarginContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_bottom = 64
+
+[node name="VBoxContainer" type="VBoxContainer" parent="DeathMenu/MarginContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="DeathMenu/MarginContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "You Died!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HighScoreLabel" type="Label" parent="DeathMenu/MarginContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 24
+text = "High Score: 0"
+horizontal_alignment = 1
+script = ExtResource("3_8ofjy")
+high_score_color = Color(0.909804, 0.501961, 0.207843, 1)
+
+[node name="RestartButton" type="Button" parent="DeathMenu/MarginContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 10
+theme_override_font_sizes/font_size = 24
+text = "Play Again"
+
+[node name="ScoreCounter" type="CanvasLayer" parent="."]
+layer = -10
+
+[node name="MarginContainer" type="MarginContainer" parent="ScoreCounter"]
+offset_right = 1280.0
+offset_bottom = 720.0
+theme_override_constants/margin_top = 10
+
+[node name="ScoreLabel" type="Label" parent="ScoreCounter/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0.278431, 0.278431, 0.278431, 1)
+theme_override_font_sizes/font_size = 48
+text = "0"
+script = ExtResource("3_u3hoo")
+
+[connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
+[connection signal="killed" from="Player" to="." method="_on_player_killed"]
+[connection signal="killed" from="Player" to="DeathMenu/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HighScoreLabel" method="_on_player_killed"]
+[connection signal="scored" from="Player" to="." method="_on_player_scored"]
+[connection signal="scored" from="Player" to="ScoreCounter/MarginContainer/ScoreLabel" method="_on_player_scored"]
+[connection signal="pressed" from="DeathMenu/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]

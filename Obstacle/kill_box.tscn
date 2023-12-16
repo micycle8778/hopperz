@@ -1,11 +1,20 @@
-[gd_scene load_steps=5 format=3 uid="uid://ccj7xnysk5tpg"]
+[gd_scene load_steps=7 format=3 uid="uid://ccj7xnysk5tpg"]
 
 [ext_resource type="Script" path="res://Obstacle/kill_box.gd" id="1_a3vkf"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ypqpb"]
 
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_m3guv"]
+frequency = 1.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ykxit"]
+noise = SubResource("FastNoiseLite_m3guv")
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pq5w3"]
-albedo_color = Color(0.87451, 0.184314, 0.184314, 1)
+albedo_color = Color(1, 0.141176, 0.141176, 1)
+normal_texture = SubResource("NoiseTexture2D_ykxit")
+clearcoat_roughness = 1.0
+heightmap_scale = -16.0
 grow_amount = 0.99
 
 [sub_resource type="BoxMesh" id="BoxMesh_uj81j"]

@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://ckppu6211x1fk"]
+
+[ext_resource type="PackedScene" uid="uid://bjxpq23sqvg3a" path="res://Obstacle/obstacle.tscn" id="1_6d0xg"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_31qtp"]
+size = Vector3(10, 2.5, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_25b4y"]
+size = Vector3(10, 2.5, 2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_glv83"]
+size = Vector3(10, 1.25, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_78pgw"]
+size = Vector3(10, 1.25, 2)
+
+[node name="StaircaseObstacle" instance=ExtResource("1_6d0xg")]
+
+[node name="Back" type="StaticBody3D" parent="." index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, -1)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Back" index="0"]
+mesh = SubResource("BoxMesh_31qtp")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Back" index="1"]
+shape = SubResource("BoxShape3D_25b4y")
+
+[node name="Front" type="StaticBody3D" parent="." index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.625, 1)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Front" index="0"]
+mesh = SubResource("BoxMesh_glv83")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Front" index="1"]
+shape = SubResource("BoxShape3D_78pgw")
