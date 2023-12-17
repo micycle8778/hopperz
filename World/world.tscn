@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://dnvud3lrgijm8"]
+[gd_scene load_steps=13 format=3 uid="uid://dnvud3lrgijm8"]
 
 [ext_resource type="PackedScene" uid="uid://bx0eaye2jeufi" path="res://Player/player.tscn" id="1_jiire"]
 [ext_resource type="Script" path="res://World/world.gd" id="1_o0pnk"]
 [ext_resource type="Script" path="res://World/HighScoreLabel.gd" id="3_8ofjy"]
 [ext_resource type="Script" path="res://World/ScoreLabel.gd" id="3_u3hoo"]
+[ext_resource type="Script" path="res://World/GarbageCollector.gd" id="5_xhk1e"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_xp06p"]
 
@@ -18,6 +19,11 @@ size = Vector2(5, 10)
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_e4vw8"]
 plane = Plane(-1, 0, 0, -5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ynydg"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_vd45t"]
+points = PackedVector3Array(0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5)
 
 [node name="World" type="Node3D"]
 script = ExtResource("1_o0pnk")
@@ -155,9 +161,23 @@ theme_override_font_sizes/font_size = 48
 text = "0"
 script = ExtResource("3_u3hoo")
 
+[node name="GarbageCollector" type="Area3D" parent="."]
+script = ExtResource("5_xhk1e")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="GarbageCollector"]
+transform = Transform3D(12.7245, 0, 0, 0, 18.7779, 0, 0, 0, 1, 0, 0, 12)
+mesh = SubResource("BoxMesh_ynydg")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GarbageCollector"]
+transform = Transform3D(12.7245, 0, 0, 0, 18.7779, 0, 0, 0, 1, 0, 0, 12)
+shape = SubResource("ConvexPolygonShape3D_vd45t")
+
 [connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
 [connection signal="killed" from="Player" to="." method="_on_player_killed"]
 [connection signal="killed" from="Player" to="DeathMenu/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HighScoreLabel" method="_on_player_killed"]
 [connection signal="scored" from="Player" to="." method="_on_player_scored"]
 [connection signal="scored" from="Player" to="ScoreCounter/MarginContainer/ScoreLabel" method="_on_player_scored"]
 [connection signal="pressed" from="DeathMenu/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="area_exited" from="GarbageCollector" to="GarbageCollector" method="_on_area_exited"]
+[connection signal="body_entered" from="GarbageCollector" to="GarbageCollector" method="_on_body_entered"]

@@ -8,6 +8,20 @@ const obstacles_path := "res://Obstacle/Obstacles/"
 
 @onready var obstacles_parent = $Obstacles
 
+var last_obstacle: Obstacle
+
+func create_obstacle(z: float):
+	var obstacle := (obstacles.pick_random() as PackedScene).instantiate() as Obstacle
+
+	obstacle.position = Vector3(0, 0, z) 
+	obstacle.tree_exiting.connect(func():
+		create_obstacle(obstacle.position.z + distance)
+	)
+
+	obstacles_parent.add_child(obstacle)
+
+	last_obstacle = obstacle
+
 func _ready():
 	var dir := DirAccess.open(obstacles_path)
 	
@@ -23,9 +37,7 @@ func _ready():
 			file_name = dir.get_next()
 	
 	for i in range(100):
-		var obstacle := (obstacles.pick_random() as PackedScene).instantiate() as Obstacle
-		obstacle.position = Vector3(0, 0, start_point - i * distance) 
-		obstacles_parent.add_child(obstacle)
+		create_obstacle(start_point - i * distance)
 
 func _on_player_scored():
 	Engine.time_scale += 0.05
