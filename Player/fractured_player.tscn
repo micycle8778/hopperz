@@ -1,7 +1,11 @@
-[gd_scene load_steps=138 format=3 uid="uid://cior04f2oegdh"]
+[gd_scene load_steps=143 format=3 uid="uid://cior04f2oegdh"]
 
 [ext_resource type="Material" uid="uid://csm2dxtn8s4fx" path="res://Player/player_material.tres" id="1_7uiqg"]
 [ext_resource type="Script" path="res://Player/fractured_player.gd" id="1_8hja0"]
+[ext_resource type="AudioStream" uid="uid://boer7h228vjxt" path="res://Drop Sounds/drop0.wav" id="3_j5hbt"]
+[ext_resource type="AudioStream" uid="uid://p4t8q587lbsh" path="res://Drop Sounds/drop1.wav" id="4_lehf1"]
+[ext_resource type="AudioStream" uid="uid://dqycd5uv4q348" path="res://Drop Sounds/drop2.wav" id="5_npeml"]
+[ext_resource type="AudioStream" uid="uid://doh78ol8gu48e" path="res://Drop Sounds/drop3.wav" id="6_rqmr3"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_vtbi1"]
 _surfaces = [{
@@ -1854,6 +1858,18 @@ shadow_mesh = SubResource("ArrayMesh_oeeqj")
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_rqend"]
 points = PackedVector3Array(-0.124262, -0.209706, 0.4088, -0.172347, -0.209537, -0.0792387, -0.0281623, -0.209593, -0.0744168, 0.150318, -0.20965, -0.000480406, 0.18703, -0.20965, 0.0296689, 0.190158, -0.159976, 0.0259185, 0.190265, 0.329438, 0.0260159, -0.1238, 0.339237, 0.408215, -0.172773, -0.159976, -0.0840606, -0.124759, -0.159976, -0.0887852, -0.124759, -0.209537, -0.0839145, 0.0647029, -0.209593, -0.0462157, -0.0272027, -0.159976, -0.07919, 0.0665865, -0.159976, -0.0507454, 0.153019, -0.159976, -0.00452304, 0.153019, 0.333999, -0.00452304, 0.0665865, 0.343574, -0.0507454, -0.172098, 0.365651, -0.0841581, -0.124759, 0.361765, -0.0887852, -0.0272027, 0.352923, -0.07919)
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_e8q7l"]
+random_pitch = 1.1
+streams_count = 4
+stream_0/stream = ExtResource("3_j5hbt")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("4_lehf1")
+stream_1/weight = 1.0
+stream_2/stream = ExtResource("5_npeml")
+stream_2/weight = 1.0
+stream_3/stream = ExtResource("6_rqmr3")
+stream_3/weight = 1.0
+
 [node name="fractured" type="Node3D"]
 process_mode = 3
 script = ExtResource("1_8hja0")
@@ -2397,3 +2413,7 @@ surface_material_override/0 = ExtResource("1_7uiqg")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D45"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.124733, -0.340061, -0.411215)
 shape = SubResource("ConvexPolygonShape3D_rqend")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_e8q7l")
+max_polyphony = 100

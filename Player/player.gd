@@ -56,14 +56,17 @@ func score():
 		scored.emit()
 
 func kill():
+	if is_dead: return
 	is_dead = true
 
 	var dead_player := preload("res://Player/fractured_player.tscn") as PackedScene
 	assert(dead_player != null)
 
-	var obj = dead_player.instantiate()
-	obj.position = position + Vector3(0, 1, 0)
-	get_parent().add_child(obj)
+	for i in range(1):
+		var obj = dead_player.instantiate()
+		obj.position = position + Vector3(0, 1, 0)
+		get_parent().add_child(obj)
+
 	queue_free()
 
 	killed.emit()
